@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "570745042139",
+    "project_id": "edge-2060b",
+    "storage_bucket": "edge-2060b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570745042139:android:6ac42ebb2cb95b2051c8fe",
+        "android_client_info": {
+          "package_name": "com.event"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCijN6v5ajhuuxwW5f_e67QSYRgFUeXt74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570745042139:android:a37f19f0fd04f03151c8fe",
+        "android_client_info": {
+          "package_name": "com.schoolapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCijN6v5ajhuuxwW5f_e67QSYRgFUeXt74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

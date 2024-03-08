@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text,StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 const AuthComponent = () => {
@@ -9,20 +9,19 @@ const AuthComponent = () => {
 
   const handleLogin = async () => {
     try {
-      const userCredential = await auth().signInWithEmailAndPassword(email, password);
+       await auth().signInWithEmailAndPassword(email, password);
 
-      console.log('User logged in:', userCredential.user.uid);
     } catch (e) {
 
       console.error('Login error:', e);
-      setError(e.message);
+      setError('Invalid email or password. Please try again.');
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -37,6 +36,7 @@ const AuthComponent = () => {
         value={password}
         secureTextEntry
       />
+      {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Login" onPress={handleLogin} />
     </View>
   );
@@ -44,11 +44,13 @@ const AuthComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-  },
+    backgroundColor:'white'
+},
   title: {
     fontSize: 24,
     marginBottom: 20,

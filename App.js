@@ -17,6 +17,7 @@ import AddStudentMarks from './src/screens/AddStudentMarks';
 import Calendar from './src/screens/Calendar';
 import Loader from './src/components/Loader';
 import Assignments from './src/screens/Assignments';
+import AllAssignments from './src/screens/AllAssignments';
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
@@ -52,6 +53,7 @@ export default function App() {
         <Stack.Screen name="Add Marks" component={AddStudentMarks} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="Assignments" component={Assignments} />
+        <Stack.Screen name="AssignmentsList" component={AllAssignments} />
       </Stack.Navigator>
     </NavigationContainer>
   );

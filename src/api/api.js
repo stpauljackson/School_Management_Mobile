@@ -1,6 +1,6 @@
 let ENV = 'dev'; // 'prod or dev'
 
-let getCalendarEndpoint, saveAttendanceEndpoint, getAllStudentsEndpoint, saveMarksEndpoint,
+let getCalendarEndpoint, saveAttendanceEndpoint, getAllStudentsEndpoint, saveMarksEndpoint,getAssignmentsEndpoint,
     getClassEndpoint, marksOfClassEndpoint, getAllTestsEndpoint, fetchEventsEndpoint, createNewTestEndpoint, uploadFileEndpoint, getFileEndpoint;
 
 if (ENV === 'prod') {
@@ -29,6 +29,7 @@ if (ENV === 'prod') {
     createNewTestEndpoint = localHostBaseUrl + 'createNewTest';
     uploadFileEndpoint = localHostBaseUrl + 'uploadFile';
     getFileEndpoint = localHostBaseUrl + 'getFile';
+    getAssignmentsEndpoint = localHostBaseUrl + 'getAssignments';
 }
 
 export {
@@ -42,5 +43,6 @@ export {
     fetchEventsEndpoint,
     createNewTestEndpoint,
     uploadFileEndpoint,
-    getFileEndpoint
+    getFileEndpoint,
+    getAssignmentsEndpoint
 };

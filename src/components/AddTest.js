@@ -46,7 +46,7 @@ export default AddTest = ({
                 <Text style={styles.label}>Test Name</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder=" "
+                  placeholder=""
                   value={testName}
                   onChangeText={setTestName}
                 />

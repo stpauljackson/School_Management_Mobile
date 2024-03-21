@@ -1,15 +1,11 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  ActivityIndicator,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import axios from 'axios';
+import Loader from '../components/Loader';
+import {getAllStudentsEndpoint, saveAttendanceEndpoint} from '../api/api';
+import Button from '../components/Button';
 
 const StudentList = ({item, onPress}) => {
   return (
@@ -30,10 +26,11 @@ const StudentList = ({item, onPress}) => {
 
 export default function Attendance({navigation}) {
   const userData = useSelector(state => state?.Auth?.userData);
+  const user = useSelector(state => state.Auth.user);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
+  const [error, setError] = useState(null);
   const toggleAttendanceStatus = participantId => {
     setStudents(prevStudents =>
       prevStudents.map(student => {
@@ -47,13 +44,17 @@ export default function Attendance({navigation}) {
   const saveAttendance = async () => {
     setSaving(true);
     try {
-      const response = await axios.post(
-        'https://us-central1-edge-2060b.cloudfunctions.net/saveAttendance',
-        students,
-      );
+      const payload = {
+        attendanceData: students,
+        teacherID: user,
+      };
+      const response = await axios.post(saveAttendanceEndpoint, payload);
       if (response.status === 200) {
         setSaving(false);
         navigation.goBack();
+      }
+      if (response.status === 403) {
+        setError(response.data);
       }
       return;
     } catch (error) {
@@ -68,46 +69,51 @@ export default function Attendance({navigation}) {
       Class: userData.class,
       Section: userData.section,
       School: userData.school,
+      purpose: 'attendance',
+      teacherID: user,
     };
 
     try {
-      const response = await axios.post(
-        'https://us-central1-edge-2060b.cloudfunctions.net/getAllStudentsfromClass',
-        payload,
-      );
-      const studentData = response.data.map(x => {
-        return {
-          participantId: x?.uid,
-          name: x.name,
-          attendanceStatus: true,
-        };
-      });
-      setStudents(studentData);
-      setLoading(false);
-      return;
+      const response = await axios.post(getAllStudentsEndpoint, payload);
+      console.log(response.data)
+    if(response?.data?.errorMessage) 
+    {
+        setError(response.data.errorMessage);
+        return
+    }
+    else
+    {
+        console.log('else')
+    }
+    //   const studentData = response.data.map(x => ({
+    //     participantId: x?.uid,
+    //     name: x.name,
+    //     attendanceStatus: true,
+    //   }));
+    //   setStudents(studentData);
     } catch (error) {
       console.error('Error fetching students:', error);
-      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (userData) fetchStudents();
   }, [userData]);
-  if (loading) {
+  if (loading) return <Loader />;
+  if (error) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="larger" color="#0000ff" />
-      </View>
+      <View
+        style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+            <Button title='Go Back' onPress={()=>navigation.goBack()}/>
+        </View>
     );
   }
   return (
     <View style={{flex: 1}}>
-      {saving && (
-        <View style={styles.loadingIndicator}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-      )}
+      {saving && <Loader />}
       <View style={{flex: 1, paddingBottom: 40}}>
         <FlatList
           data={students}
@@ -179,9 +185,32 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // translucent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
+  },
+  errorText:{
+    fontSize:20,
+    color: 'black',
+    marginVertical:20
+  },
+  errorContainer:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    backgroundColor: '#fff',
+    margin: 10,
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   }
 });

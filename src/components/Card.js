@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Card({item,navigation}) {
     
@@ -7,6 +8,7 @@ export default function Card({item,navigation}) {
         <TouchableOpacity 
         onPress={()=>navigation.navigate(item.key)} 
         style={styles.cardContainer}>
+            <Ionicons name={item?.iconName} size={25} color="black" />
           <Text style={styles.cardText}>{item.name}</Text>
         </TouchableOpacity>
       );

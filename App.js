@@ -1,11 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
@@ -21,6 +14,9 @@ import UploadMarks from './src/screens/UploadMarks';
 import SelectTest from './src/screens/SelectTest';
 import Announcements from './src/screens/Announcements';
 import AddStudentMarks from './src/screens/AddStudentMarks';
+import Calendar from './src/screens/Calendar';
+import Loader from './src/components/Loader';
+import Assignments from './src/screens/Assignments';
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
@@ -38,16 +34,9 @@ export default function App() {
     return subscriber;
   }, []);
 
-  if (initializing)
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
+  if (initializing) return <Loader />
 
-  if (!user) {
-    return <AuthComponent />;
-  }
+  if (!user) return <AuthComponent />;
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -61,9 +50,9 @@ export default function App() {
         <Stack.Screen name="Select Test" component={SelectTest} />
         <Stack.Screen name="Announcements" component={Announcements} />
         <Stack.Screen name="Add Marks" component={AddStudentMarks} />
+        <Stack.Screen name="Calendar" component={Calendar} />
+        <Stack.Screen name="Assignments" component={Assignments} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-//TODO :- Correctly arrange the MainScreen.js and App.js code

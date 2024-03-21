@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
 import AddTest from '../components/AddTest';
+import { createNewTestEndpoint, getAllTestsEndpoint } from '../api/api';
+import Loader from '../components/Loader';
 
 export default function SelectTest({navigation,route}) {
 const {classId} = route.params
@@ -12,6 +14,7 @@ const [tests,setTests] = useState([])
 const [loading,setLoading] = useState(false)
 const [modalVisible, setModalVisible] = useState(false);
 const fetchTest = async () => {
+    setLoading(true)
     const payload = {
         classId: classId,
         teacherId: user
@@ -19,7 +22,7 @@ const fetchTest = async () => {
    console.log(payload)
     try {
       const response = await axios.post(
-        'https://us-central1-edge-2060b.cloudfunctions.net/getAllTests',
+        getAllTestsEndpoint,
         payload,
       );
     console.log(response.data);
@@ -28,6 +31,9 @@ const fetchTest = async () => {
     } catch (error) {
       console.error('Error fetching class:', error);
       throw error;
+    }
+    finally{
+        setLoading(false)
     }
   };
 const addTest = async (testName,subject,date) => {
@@ -42,7 +48,7 @@ const addTest = async (testName,subject,date) => {
    console.log(payload)
     try {
       const response = await axios.post(
-        'https://us-central1-edge-2060b.cloudfunctions.net/createNewTest',
+        createNewTestEndpoint,
         payload,
       );
       fetchTest()
@@ -62,6 +68,7 @@ useEffect(()=>{
         fetchTest();
     }
 },[classId,user])
+if(loading && !modalVisible) return <Loader /> 
   return (
     <View style={{flex: 1, paddingBottom: 40}}>
     <FlatList

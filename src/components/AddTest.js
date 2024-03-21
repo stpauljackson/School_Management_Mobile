@@ -6,11 +6,11 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   TextInput,
-  ActivityIndicator,
 } from 'react-native';
 import Button from './Button';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Loader from './Loader';
 
 export default AddTest = ({
   modalVisible,
@@ -38,10 +38,7 @@ export default AddTest = ({
         }}>
         <View style={styles.centeredView}>
           {loading ? (
-            <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <Loader />
           ) : (
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Add New Test</Text>

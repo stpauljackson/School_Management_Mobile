@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, StyleSheet, TextInput } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Modal, View, Text, StyleSheet, TextInput} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import Button from '../components/Button';
-import { uploadFileEndpoint } from '../api/api';
+import {uploadFileEndpoint} from '../api/api';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
-export default UploadAssignmentModal = ({ visible, toggle, classId }) => {
+export default UploadAssignmentModal = ({visible, toggle, classId}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [assignmentName, setAssignmentName] = useState('');
-  
+  const teacherId = useSelector(state => state.Auth.user);
   const handleFileSelection = async () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
         multiple: false,
       });
-      setSelectedFile(res);
+      setSelectedFile(res[0]);
     } catch (err) {
       console.log('Document picker error:', err);
     }
@@ -34,7 +35,7 @@ export default UploadAssignmentModal = ({ visible, toggle, classId }) => {
         type: selectedFile.type,
         name: selectedFile.name,
       });
-      formData.append('userId', userId);
+      formData.append('teacherId', teacherId);
       formData.append('classId', classId);
       formData.append('assignmentName', assignmentName);
 
@@ -50,36 +51,38 @@ export default UploadAssignmentModal = ({ visible, toggle, classId }) => {
       console.error('Error uploading file:', error);
     }
   };
-
+  useEffect(() => {
+    console.log(selectedFile)
+  })
   return (
-    <View style={styles.container}>
     <Modal
       animationType="slide"
       transparent={true}
       visible={visible}
-      onRequestClose={toggle}
-    >
+      onRequestClose={toggle}>
       <View style={styles.centeredView}>
-      <View style={styles.modalView}>
-      <Text style={styles.label}>Assignment Name</Text>
-                
-        <TextInput
-          style={styles.textInput}
-          placeholder="Assignment Name"
-          onChangeText={setAssignmentName}
-          value={assignmentName}
-        />
-        <Button title="Select File" onPress={handleFileSelection} />
-        {selectedFile && (
-          <>
-            <Text style={styles.fileName}>Selected File: {selectedFile.name}</Text>
-            <Button title="Upload" onPress={handleUpload} />
-          </>
-        )}
-      </View>
+        <View style={styles.modalView}>
+        <View style={styles.form}>
+          <Text style={styles.label}>Assignment Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder=""
+            onChangeText={setAssignmentName}
+            value={assignmentName}
+          />
+        </View>
+          <Button title="Select File" onPress={handleFileSelection} />
+          {selectedFile && (
+            <>
+              <Text style={styles.fileName}>
+                Selected File: {selectedFile.name}
+              </Text>
+              <Button title="Upload" onPress={handleUpload} />
+            </>
+          )}
+        </View>
       </View>
     </Modal>
-    </View>
   );
 };
 
@@ -88,6 +91,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  form: {
+    marginBottom: 20,
+    width: '100%',
   },
   label: {
     position: 'absolute',
@@ -105,10 +112,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
     margin: 20,
+    width: '90%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,

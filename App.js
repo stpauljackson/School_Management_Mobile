@@ -53,7 +53,13 @@ export default function App() {
         <Stack.Screen name="Add Marks" component={AddStudentMarks} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="Assignments" component={Assignments} />
-        <Stack.Screen name="AssignmentsList" component={AllAssignments} />
+        <Stack.Screen
+          name="All Assignments"
+          component={AllAssignments}
+          options={({ route }) => ({
+            headerTitle: route.params?.headerTitle || 'All Assignments',
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

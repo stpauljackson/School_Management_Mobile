@@ -53,7 +53,7 @@ export default function UploadMarks({navigation}) {
 
 const Classes = ({item,navigation}) => {
     return (
-      <TouchableNativeFeedback onPress={()=>navigation.navigate('AssignmentsList',{classId:item.id})}>
+      <TouchableNativeFeedback onPress={()=>navigation.navigate('All Assignments',{classId:item.id, headerTitle: `${item.class} ${item.section} (${item.subject})`})}>
         <View style={styles.cardContainer}>
           <Text style={styles.name}>{item.class} {item.section} ({item.subject})</Text>
         </View>

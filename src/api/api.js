@@ -4,32 +4,34 @@ let getCalendarEndpoint, saveAttendanceEndpoint, getAllStudentsEndpoint, saveMar
     getClassEndpoint, marksOfClassEndpoint, getAllTestsEndpoint, fetchEventsEndpoint, createNewTestEndpoint, uploadFileEndpoint, getFileEndpoint;
 
 if (ENV === 'prod') {
-    const productionBaseUrl = 'https://us-central1-edge-2060b.cloudfunctions.net/';
+    const BaseUrl = 'https://us-central1-edge-2060b.cloudfunctions.net/';
 
-    getCalendarEndpoint = productionBaseUrl + 'getCalendar';
-    saveAttendanceEndpoint = productionBaseUrl + 'saveAttendance';
-    getAllStudentsEndpoint = productionBaseUrl + 'getAllStudentsfromClass';
-    saveMarksEndpoint = productionBaseUrl + 'saveMarks';
-    getClassEndpoint = productionBaseUrl + 'getClass';
-    marksOfClassEndpoint = productionBaseUrl + 'marksofclass';
-    getAllTestsEndpoint = productionBaseUrl + 'getAllTests';
-    fetchEventsEndpoint = productionBaseUrl + 'fetchEvents';
-    createNewTestEndpoint = productionBaseUrl + 'createNewTest';
+    getCalendarEndpoint = BaseUrl + 'getCalendar';
+    saveAttendanceEndpoint = BaseUrl + 'saveAttendance';
+    getAllStudentsEndpoint = BaseUrl + 'getAllStudentsfromClass';
+    saveMarksEndpoint = BaseUrl + 'saveMarks';
+    getClassEndpoint = BaseUrl + 'getClass';
+    marksOfClassEndpoint = BaseUrl + 'marksofclass';
+    getAllTestsEndpoint = BaseUrl + 'getAllTests';
+    fetchEventsEndpoint = BaseUrl + 'fetchEvents';
+    createNewTestEndpoint = BaseUrl + 'createNewTest';
+    getAssignmentsEndpoint = BaseUrl + 'getAssignments';
+    uploadFileEndpoint = BaseUrl + 'uploadFile';
 } else {
-    const localHostBaseUrl = 'http://10.0.2.2:5001/edge-2060b/us-central1/';
+    const BaseUrl = 'http://10.0.2.2:5001/edge-2060b/us-central1/';
     
-    getCalendarEndpoint = localHostBaseUrl + 'getCalendar';
-    saveAttendanceEndpoint = localHostBaseUrl + 'saveAttendance';
-    getAllStudentsEndpoint = localHostBaseUrl + 'getAllStudentsfromClass';
-    saveMarksEndpoint = localHostBaseUrl + 'saveMarks';
-    getClassEndpoint = localHostBaseUrl + 'getClass';
-    marksOfClassEndpoint = localHostBaseUrl + 'marksofclass';
-    getAllTestsEndpoint = localHostBaseUrl + 'getAllTests';
-    fetchEventsEndpoint = localHostBaseUrl + 'fetchEvents';
-    createNewTestEndpoint = localHostBaseUrl + 'createNewTest';
-    uploadFileEndpoint = localHostBaseUrl + 'uploadFile';
-    getFileEndpoint = localHostBaseUrl + 'getFile';
-    getAssignmentsEndpoint = localHostBaseUrl + 'getAssignments';
+    getCalendarEndpoint = BaseUrl + 'getCalendar';
+    saveAttendanceEndpoint = BaseUrl + 'saveAttendance';
+    getAllStudentsEndpoint = BaseUrl + 'getAllStudentsfromClass';
+    saveMarksEndpoint = BaseUrl + 'saveMarks';
+    getClassEndpoint = BaseUrl + 'getClass';
+    marksOfClassEndpoint = BaseUrl + 'marksofclass';
+    getAllTestsEndpoint = BaseUrl + 'getAllTests';
+    fetchEventsEndpoint = BaseUrl + 'fetchEvents';
+    createNewTestEndpoint = BaseUrl + 'createNewTest';
+    uploadFileEndpoint = BaseUrl + 'uploadFile';
+    getFileEndpoint = BaseUrl + 'getFile';
+    getAssignmentsEndpoint = BaseUrl + 'getAssignments';
 }
 
 export {

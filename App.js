@@ -1,8 +1,13 @@
 import React, {useState, useEffect} from 'react';
+import {Alert, Platform,Button} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import messaging from '@react-native-firebase/messaging';
+import notifee from '@notifee/react-native';
+import NotificationSounds from 'react-native-notification-sounds';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +23,8 @@ import Calendar from './src/screens/Calendar';
 import Loader from './src/components/Loader';
 import Assignments from './src/screens/Assignments';
 import AllAssignments from './src/screens/AllAssignments';
+import Notifications from './src/screens/Notifications';
+
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
@@ -29,13 +36,82 @@ export default function App() {
     dispatch(fetchUserData(user?.uid));
     if (initializing) setInitializing(false);
   };
+  const storeNotification = async (notification) => {
+    try {
+        const existingNotifications = await AsyncStorage.getItem('notifications');
+        const notifications = existingNotifications ? JSON.parse(existingNotifications) : [];
+        notifications.push(notification);
+        await AsyncStorage.setItem('notifications', JSON.stringify(notifications));
+    } catch (error) {
+        console.error('Error storing notification:', error);
+    }
+};
+  const DisplayNotification = async ({title,body}) => {
+
+    // Request permissions (required for iOS)
+    await notifee.requestPermission()
+    const soundsList = await NotificationSounds.getNotifications('notification');
+    console.log('length', soundsList.length);
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+      sound: soundsList[0].url,
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: title,
+      body: body,
+      android: {
+        channelId, 
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
+  useEffect(() => {
+    const requestUserPermission = async () => {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      if (enabled) {
+        console.log('Authorization status:', authStatus);
+      }
+    };
 
-  if (initializing) return <Loader />
+    requestUserPermission();
+    const getDeviceToken = async () => {
+      const token = await messaging().getToken();
+      console.log('Device Token:', token);
+    };
+
+    getDeviceToken();
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+
+    await DisplayNotification({
+      title: remoteMessage.notification.title,
+      body: remoteMessage.notification.body,
+    });
+    await storeNotification({
+      title: remoteMessage.notification.title,
+      body: remoteMessage.notification.body,
+      date: new Date(),
+    })
+    });
+
+    return unsubscribe;
+  }, []);
+
+  if (initializing) return <Loader />;
 
   if (!user) return <AuthComponent />;
   return (
@@ -56,10 +132,11 @@ export default function App() {
         <Stack.Screen
           name="All Assignments"
           component={AllAssignments}
-          options={({ route }) => ({
+          options={({route}) => ({
             headerTitle: route.params?.headerTitle || 'All Assignments',
           })}
         />
+        <Stack.Screen name="Notifications" component={Notifications} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,25 +1,27 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import {View, Text, StyleSheet, TouchableNativeFeedback} from 'react-native';
+import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Header() {
+export default function Header({navigation}) {
   return (
     <View style={styles.container}>
-       <Ionicons name='menu' size={25} color="black" />
-       <Text style={styles.text}>School App</Text>
-       <Ionicons name='notifications' size={25} color="black" />
+      <Ionicons name="menu" size={25} color="black" />
+      <Text style={styles.text}>School App</Text>
+      <TouchableNativeFeedback onPress={()=>navigation.navigate('Notifications')}>
+        <Ionicons name="notifications" size={25} color="black" />
+      </TouchableNativeFeedback>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingHorizontal: 5,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   text: {
     fontSize: 25,
@@ -27,4 +29,3 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
-

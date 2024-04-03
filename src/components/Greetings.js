@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 export default function Greetings() {
     const userData = useSelector((state) => state?.Auth?.userData);
   return (
-      <Text style={styles.greeting}>Hello <Text style={styles.name}>{userData?.name}</Text> !</Text>
+      <Text style={styles.greeting}>Hello <Text style={styles.name}>{userData?.firstName}</Text> !</Text>
   )
 }
 

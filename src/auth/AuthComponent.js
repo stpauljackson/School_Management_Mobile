@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text,StatusBar } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+import firestore from '@react-native-firebase/firestore';
+
+async function setTokenToFirebase(uid) {
+  const token = await messaging().getToken();
+  try {
+    await firestore().collection('users').doc(uid).set({fcmToken: token}, {merge: true});
+  } catch (e) {
+    console.error('Error setting token to firebase:', e);
+  }
+}
 
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
@@ -9,8 +20,8 @@ const AuthComponent = () => {
 
   const handleLogin = async () => {
     try {
-       await auth().signInWithEmailAndPassword(email, password);
-
+       const user = await auth().signInWithEmailAndPassword(email, password);
+        await setTokenToFirebase(user.user.uid);
     } catch (e) {
 
       console.error('Login error:', e);

@@ -4,16 +4,21 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {FlatList} from 'react-native-gesture-handler';
 import { fetchEventsEndpoint } from '../api/api';
+import AddAnnoucements from '../components/AddAnnoucements';
 import Loader from '../components/Loader';
 export default function Announcements({navigation}) {
   const userData = useSelector(state => state?.Auth?.userData);
-  const school = userData.school;
+  const schoolId = userData.schoolId;
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([]);
+
+  const [visible, setVisible] = useState(false);
+  const toggle = () => setVisible(!visible);
+
   const fetchAnnouncements = async () => {
     setLoading(true);
     const payload = {
-      school: school,
+      school: schoolId,
     };
     console.log(payload);
     try {
@@ -33,22 +38,31 @@ export default function Announcements({navigation}) {
     }
   };
   useEffect(() => {
-    if (school) {
+    if (schoolId) {
       fetchAnnouncements();
     }
-  }, [school]);
+  }, [schoolId]);
 
   if (loading) return <Loader />
 
   return (
-    <View>
+    <View style={{flex:1}}>
       <FlatList
         data={messages}
         keyExtractor={item => item.title}
         renderItem={({item}) => <Message item={item} navigation={navigation} />}
         numColumns={1}
       />
+      <AddAnnoucements visible={visible} toggle={toggle} schoolId={userData.schoolId}/>
+      {userData.type === 'admin' &&
+      <TouchableNativeFeedback onPress={()=>{toggle()}}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>Add Annoucement</Text>
+        </View>
+      </TouchableNativeFeedback>
+    }
     </View>
+
   );
 }
 const Message = ({item, navigation}) => {
@@ -91,5 +105,20 @@ const styles = StyleSheet.create({
     paddingVertical:5,
     paddingHorizontal:10,
     color:'black'
-  }
+  },
+  button: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'royalblue',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });

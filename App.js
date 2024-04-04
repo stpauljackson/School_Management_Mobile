@@ -24,7 +24,8 @@ import Loader from './src/components/Loader';
 import Assignments from './src/screens/Assignments';
 import AllAssignments from './src/screens/AllAssignments';
 import Notifications from './src/screens/Notifications';
-
+import AllClasses from './src/screens/AllClasses';
+import AddClasses from './src/screens/AddClasses';
 
 export default function App() {
   const [initializing, setInitializing] = useState(true);
@@ -127,6 +128,7 @@ export default function App() {
         <Stack.Screen name="Select Test" component={SelectTest} />
         <Stack.Screen name="Announcements" component={Announcements} />
         <Stack.Screen name="Add Marks" component={AddStudentMarks} />
+        <Stack.Screen name="All Classes" component={AllClasses} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="Assignments" component={Assignments} />
         <Stack.Screen
@@ -137,6 +139,10 @@ export default function App() {
           })}
         />
         <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen 
+        name="Add Classes" 
+        component={AddClasses}
+        options={({route}) => ({headerTitle: 'Class ' + route.params?.class + ' ' + route.params?.section})} />
       </Stack.Navigator>
     </NavigationContainer>
   );

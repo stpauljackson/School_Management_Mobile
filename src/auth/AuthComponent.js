@@ -35,6 +35,7 @@ const AuthComponent = () => {
       
       <TextInput
         style={styles.input}
+        placeholderTextColor="gray"
         placeholder="Email"
         onChangeText={text => setEmail(text)}
         value={email}
@@ -42,6 +43,7 @@ const AuthComponent = () => {
       />
       <TextInput
         style={styles.input}
+        placeholderTextColor="gray"
         placeholder="Password"
         onChangeText={text => setPassword(text)}
         value={password}
@@ -74,6 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
+    color: 'black'
   },
   error: {
     color: 'red',

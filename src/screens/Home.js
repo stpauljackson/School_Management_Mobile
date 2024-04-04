@@ -27,13 +27,7 @@ const screenData = {
   ],
   admin: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
-    {key: 'Assignments', name: 'Assignments', iconName: 'document-text'},
-    {key: 'Students', name: 'Students', iconName: 'people'},
-    {key: 'Teachers', name: 'Teachers', iconName: 'school'},
-    {key: 'Examinations', name: 'Examinations', iconName: 'school'},
-    {key: 'Results', name: 'Results', iconName: 'bar-chart'},
-    {key: 'Calendar', name: 'Calendar', iconName: 'calendar'},
-    {key: 'TimeTable', name: 'TimeTable', iconName: 'time'},
+    {key: 'All Classes', name: 'Add Classes', iconName: 'document-text'},
   ],
   employee: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
@@ -44,10 +38,16 @@ const screenData = {
   ],
 };
 
+const getScreenList = userType => {
+  return screenData[userType] ? screenData[userType] : [];
+};
+
 export default function Home({navigation}) {
   const userData = useSelector(state => state?.Auth?.userData);
-  const data = useMemo(() => screenData[userData.type], [userData.type]);
-
+  const data = useMemo(() => getScreenList(userData?.type), [userData?.type]);
+  useEffect(() => {
+    console.log(userData);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />

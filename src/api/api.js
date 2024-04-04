@@ -2,7 +2,8 @@ let ENV = 'dev'; // 'prod or dev'
 
 let getCalendarEndpoint, saveAttendanceEndpoint, getAllStudentsEndpoint, saveMarksEndpoint,getAssignmentsEndpoint,
     getClassEndpoint, marksOfClassEndpoint, getAllTestsEndpoint, fetchEventsEndpoint, createNewTestEndpoint,
-    uploadFileEndpoint, getFileEndpoint,createAnnouncementsEndpoint,createClassesEndpoint,getClassesEndpoint,getStudentFromClassEndpoint;
+    uploadFileEndpoint, getFileEndpoint,createAnnouncementsEndpoint,createClassesEndpoint,getClassesEndpoint,getStudentFromClassEndpoint,
+    createUserIdsWithExcelFileEndpoint;
 
 if (ENV === 'prod') {
     const BaseUrl = 'https://us-central1-edge-2060b.cloudfunctions.net/';
@@ -37,6 +38,7 @@ if (ENV === 'prod') {
     createClassesEndpoint = BaseUrl + 'createClasses';
     getClassesEndpoint = BaseUrl + 'getClasses';
     getStudentFromClassEndpoint = BaseUrl + 'getStudentFromClass';
+    createUserIdsWithExcelFileEndpoint = BaseUrl + 'createUserIdsWithExcelFile'
 }
 
 export {
@@ -56,4 +58,5 @@ export {
     createClassesEndpoint,
     getClassesEndpoint,
     getStudentFromClassEndpoint,
+    createUserIdsWithExcelFileEndpoint
 };

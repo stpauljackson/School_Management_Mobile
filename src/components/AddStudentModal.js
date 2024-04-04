@@ -1,8 +1,12 @@
 import {View, Text, FlatList, Modal, StyleSheet} from 'react-native';
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
+import DocumentPicker from 'react-native-document-picker';
+import {createUserIdsWithExcelFileEndpoint} from '../api/api';
+import {useSelector} from 'react-redux';
 import InputField from './InputField';
 import Button from './Button';
-
+import Loader from './Loader';
+import axios from 'axios';
 const fields = [
   {label: 'Email', state: 'email', keyboardType: 'email-address'},
   {label: 'First Name', state: 'firstName'},
@@ -53,8 +57,11 @@ const fields = [
   {label: 'Total Siblings', state: 'totalSiblings', keyboardType: 'numeric'},
 ];
 export default function AddStudentModal({visible, toggle, classId}) {
+  const userData = useSelector(state => state?.Auth?.userData);
   const [formData, setFormData] = useState({});
+  const [selectedFile, setSelectedFile] = useState(null);
   const [source, setSource] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setFormData({});
@@ -67,6 +74,55 @@ export default function AddStudentModal({visible, toggle, classId}) {
       [key]: value,
     }));
   };
+  const handleFileSelection = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'application/vnd.ms-excel',
+        ],
+        multiple: false,
+      });
+      setSelectedFile(res[0]);
+    } catch (err) {
+      console.log('Document picker error:', err);
+    }
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (!selectedFile) {
+        console.log('No file selected');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', {
+        uri: selectedFile.uri,
+        type: selectedFile.type,
+        name: selectedFile.name,
+      });
+
+      formData.append('classId', classId);
+      formData.append('schoolId',userData?.schoolId);
+      formData.append('type', 'student');
+
+      const response = await axios.post(
+        createUserIdsWithExcelFileEndpoint,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      console.log('File uploaded successfully:', response.data);
+      toggle();
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
   const renderItem = ({item}) => (
     <InputField
       label={item.label}
@@ -78,39 +134,58 @@ export default function AddStudentModal({visible, toggle, classId}) {
 
   return (
     <View>
-      
       <Modal
         animationType="slide"
         transparent={true}
         visible={visible}
         onRequestClose={toggle}>
         <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-        {source === null && (
-        <>
-        <Text style={{fontSize: 20,alignSelf:'center',marginBottom:20}}>Choose your data input method:</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
-          <Button title="Manual" onPress={() => setSource('manual')} />
-          <Button title="From File" onPress={() => setSource('file')} />
-        </View>
-        </>
-      )}  
-          {source === 'manual' && (
+          <View style={styles.modalView}>
+            {loading ? <Loader />:
             <>
-              <Text style={styles.Header}>Student Info</Text>
-              <FlatList
-                data={fields}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-              />
-              <Button title="Submit" onPress={() => {}} />
+            {source === null && (
+              <>
+                <Text
+                  style={{fontSize: 20, alignSelf: 'center', marginBottom: 20}}>
+                  Choose your data input method:
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                  }}>
+                  <Button title="Manual" onPress={() => setSource('manual')} />
+                  <Button title="From File" onPress={() => setSource('file')} />
+                </View>
+              </>
+            )}
+            {source === 'manual' && (
+              <>
+                <Text style={styles.Header}>Student Info</Text>
+                <FlatList
+                  data={fields}
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+                <Button title="Submit" onPress={() => {}} />
+              </>
+            )}
+            {source === 'file' && (
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Button title="Select File" onPress={handleFileSelection} />
+                {selectedFile && (
+                  <>
+                    <Text style={styles.fileName}>
+                      Selected File: {selectedFile.name}
+                    </Text>
+                    <Button title="Upload" onPress={handleUpload} />
+                  </>
+                )}
+              </View>
+            )}
             </>
-          )}
-          {source === 'file' && (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Button title="Select File" onPress={() => {}} />
-            </View>
-          )}
+            }
           </View>
         </View>
       </Modal>

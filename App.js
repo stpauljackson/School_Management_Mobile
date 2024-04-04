@@ -26,7 +26,7 @@ import AllAssignments from './src/screens/AllAssignments';
 import Notifications from './src/screens/Notifications';
 import AllClasses from './src/screens/AllClasses';
 import AddClasses from './src/screens/AddClasses';
-
+import StudentDetails from './src/screens/StudentDetails';
 export default function App() {
   const [initializing, setInitializing] = useState(true);
   const user = useSelector(state => state.Auth.user);
@@ -143,6 +143,9 @@ export default function App() {
         name="Add Classes" 
         component={AddClasses}
         options={({route}) => ({headerTitle: 'Class ' + route.params?.class + ' ' + route.params?.section})} />
+        <Stack.Screen name="Student Details" component={StudentDetails} 
+        options={({route}) => ({headerTitle: route.params?.name || 'Student Details'})}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Modal, View, Text, StyleSheet, TextInput} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import Button from '../components/Button';
@@ -51,9 +51,7 @@ export default UploadAssignmentModal = ({visible, toggle, classId}) => {
       console.error('Error uploading file:', error);
     }
   };
-  useEffect(() => {
-    console.log(selectedFile)
-  })
+
   return (
     <Modal
       animationType="slide"

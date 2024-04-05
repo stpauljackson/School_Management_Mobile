@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, Button} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet,View, Text, TouchableNativeFeedback} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 
 import Header from '../components/Header';
 import Card from '../components/Card';
 import Greetings from '../components/Greetings';
-
+import auth from '@react-native-firebase/auth';
 const screenData = {
   teacher: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
@@ -20,10 +20,7 @@ const screenData = {
   ],
   student: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
-    {key: 'Assignments', name: 'Assignments', iconName: 'document-text'},
-    {key: 'Attendance', name: 'Take Attendance', iconName: 'people'},
-    {key: 'Upload Marks', name: 'Upload Marks', iconName: 'cloud-upload'},
-    {key: 'Results', name: 'Results', iconName: 'bar-chart'},
+    {key:'Student Details' , name: 'My Details', iconName: 'people'},
   ],
   admin: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
@@ -58,6 +55,15 @@ export default function Home({navigation}) {
         renderItem={({item}) => <Card item={item} navigation={navigation} />}
         numColumns={2}
       />
+      <TouchableNativeFeedback  onPress={() => {
+          auth().signOut()
+            .then(() => console.log('logged out'))
+            .catch(e => console.log('error logging out: ', e.message))
+        }}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>Logout</Text>
+        </View>
+      </TouchableNativeFeedback>
     </SafeAreaView>
   );
 }
@@ -68,5 +74,20 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     marginTop: StatusBar.currentHeight,
+  },
+  button: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 20,
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'royalblue',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

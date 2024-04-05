@@ -1,7 +1,7 @@
 import {View, Text, FlatList, Modal, StyleSheet} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import DocumentPicker from 'react-native-document-picker';
-import {createUserIdsWithExcelFileEndpoint} from '../api/api';
+import {createUserIdsWithExcelFileEndpoint,createUsersWithIdEndpoint} from '../api/api';
 import {useSelector} from 'react-redux';
 import InputField from './InputField';
 import Button from './Button';
@@ -56,15 +56,15 @@ const fields = [
   {label: 'Board Roll No.', state: 'boardRollNo', keyboardType: 'numeric'},
   {label: 'Total Siblings', state: 'totalSiblings', keyboardType: 'numeric'},
 ];
-export default function AddStudentModal({visible, toggle, classId}) {
+export default function AddStudentModal({visible, toggle, classId,fetchData}) {
   const userData = useSelector(state => state?.Auth?.userData);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({classId, schoolId:userData.schoolId,type:'student'});
   const [selectedFile, setSelectedFile] = useState(null);
   const [source, setSource] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setFormData({});
+    setFormData({classId, schoolId:userData.schoolId,type:'student'});
     setSource(null);
   }, [visible]);
 
@@ -89,6 +89,17 @@ export default function AddStudentModal({visible, toggle, classId}) {
     }
   };
 
+  const handleDataUpload = async () => {
+    try {
+       await axios.post(createUsersWithIdEndpoint, {
+        users: formData,
+      });
+      fetchData();
+      toggle();
+    } catch (error) {
+      console.error('Error creating users:', error);
+    }
+  };
   const handleUpload = async () => {
     try {
       if (!selectedFile) {
@@ -104,7 +115,7 @@ export default function AddStudentModal({visible, toggle, classId}) {
       });
 
       formData.append('classId', classId);
-      formData.append('schoolId',userData?.schoolId);
+      formData.append('schoolId', userData?.schoolId);
       formData.append('type', 'student');
 
       const response = await axios.post(
@@ -141,51 +152,64 @@ export default function AddStudentModal({visible, toggle, classId}) {
         onRequestClose={toggle}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {loading ? <Loader />:
-            <>
-            {source === null && (
+            {loading ? (
+              <Loader />
+            ) : (
               <>
-                <Text
-                  style={{fontSize: 20, alignSelf: 'center', marginBottom: 20}}>
-                  Choose your data input method:
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
-                  }}>
-                  <Button title="Manual" onPress={() => setSource('manual')} />
-                  <Button title="From File" onPress={() => setSource('file')} />
-                </View>
-              </>
-            )}
-            {source === 'manual' && (
-              <>
-                <Text style={styles.Header}>Student Info</Text>
-                <FlatList
-                  data={fields}
-                  renderItem={renderItem}
-                  keyExtractor={(item, index) => index.toString()}
-                />
-                <Button title="Submit" onPress={() => {}} />
-              </>
-            )}
-            {source === 'file' && (
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Button title="Select File" onPress={handleFileSelection} />
-                {selectedFile && (
+                {source === null && (
                   <>
-                    <Text style={styles.fileName}>
-                      Selected File: {selectedFile.name}
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        alignSelf: 'center',
+                        marginBottom: 20,
+                      }}>
+                      Choose your data input method:
                     </Text>
-                    <Button title="Upload" onPress={handleUpload} />
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                        alignItems: 'center',
+                      }}>
+                      <Button
+                        title="Manual"
+                        onPress={() => setSource('manual')}
+                      />
+                      <Button
+                        title="From File"
+                        onPress={() => setSource('file')}
+                      />
+                    </View>
                   </>
                 )}
-              </View>
+                {source === 'manual' && (
+                  <>
+                    <Text style={styles.Header}>Student Info</Text>
+                    <FlatList
+                      data={fields}
+                      renderItem={renderItem}
+                      keyExtractor={(item, index) => index.toString()}
+                    />
+                    <Button title="Submit" onPress={handleDataUpload} />
+                  </>
+                )}
+                {source === 'file' && (
+                  <View
+                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <Button title="Select File" onPress={handleFileSelection} />
+                    {selectedFile && (
+                      <>
+                        <Text style={styles.fileName}>
+                          Selected File: {selectedFile.name}
+                        </Text>
+                        <Button title="Upload" onPress={handleUpload} />
+                      </>
+                    )}
+                  </View>
+                )}
+              </>
             )}
-            </>
-            }
           </View>
         </View>
       </Modal>

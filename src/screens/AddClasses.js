@@ -19,6 +19,7 @@ export default function AddClasses({navigation,route}) {
   const toggle = () => setVisible(!visible);
 
   useEffect(() => {
+    console.log('class id', route.params.id);
     fetchData();
   }, []);
 
@@ -65,6 +66,7 @@ export default function AddClasses({navigation,route}) {
         visible={visible}
         toggle={toggle}
         classId={route.params.id}
+        fetchData={fetchData}
       />
 
       <TouchableNativeFeedback onPress={toggle}>

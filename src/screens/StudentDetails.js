@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-
+import { useSelector } from 'react-redux';
 export default function StudentDetails({route}) {
-  const {studentInfo} = route.params;
+const userData = useSelector(state => state?.Auth?.userData);
+  const studentInfo = route?.params?.studentInfo || userData;
   // Mapping of keys to labels
   const keyToLabel = {
     firstName: 'First Name',

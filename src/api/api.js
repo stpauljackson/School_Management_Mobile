@@ -1,62 +1,22 @@
-let ENV = 'dev'; // 'prod or dev'
+let ENV = 'prod'; // 'prod or dev'
 
-let getCalendarEndpoint, saveAttendanceEndpoint, getAllStudentsEndpoint, saveMarksEndpoint,getAssignmentsEndpoint,
-    getClassEndpoint, marksOfClassEndpoint, getAllTestsEndpoint, fetchEventsEndpoint, createNewTestEndpoint,
-    uploadFileEndpoint, getFileEndpoint,createAnnouncementsEndpoint,createClassesEndpoint,getClassesEndpoint,getStudentFromClassEndpoint,
-    createUserIdsWithExcelFileEndpoint;
+let BaseUrl = (ENV === 'prod') ? 'https://us-central1-edge-2060b.cloudfunctions.net/' : 'http://10.0.2.2:5001/edge-2060b/us-central1/';
 
-if (ENV === 'prod') {
-    const BaseUrl = 'https://us-central1-edge-2060b.cloudfunctions.net/';
-
-    getCalendarEndpoint = BaseUrl + 'getCalendar';
-    saveAttendanceEndpoint = BaseUrl + 'saveAttendance';
-    getAllStudentsEndpoint = BaseUrl + 'getAllStudentsfromClass';
-    saveMarksEndpoint = BaseUrl + 'saveMarks';
-    getClassEndpoint = BaseUrl + 'getClass';
-    marksOfClassEndpoint = BaseUrl + 'marksofclass';
-    getAllTestsEndpoint = BaseUrl + 'getAllTests';
-    fetchEventsEndpoint = BaseUrl + 'fetchEvents';
-    createNewTestEndpoint = BaseUrl + 'createNewTest';
-    getAssignmentsEndpoint = BaseUrl + 'getAssignments';
-    uploadFileEndpoint = BaseUrl + 'uploadFile';
-} else {
-    const BaseUrl = 'http://10.0.2.2:5001/edge-2060b/us-central1/';
-    
-    getCalendarEndpoint = BaseUrl + 'getCalendar';
-    saveAttendanceEndpoint = BaseUrl + 'saveAttendance';
-    getAllStudentsEndpoint = BaseUrl + 'getAllStudentsfromClass';
-    saveMarksEndpoint = BaseUrl + 'saveMarks';
-    getClassEndpoint = BaseUrl + 'getClass';
-    marksOfClassEndpoint = BaseUrl + 'marksofclass';
-    getAllTestsEndpoint = BaseUrl + 'getAllTests';
-    fetchEventsEndpoint = BaseUrl + 'fetchEvents';
-    createNewTestEndpoint = BaseUrl + 'createNewTest';
-    uploadFileEndpoint = BaseUrl + 'uploadFile';
-    getFileEndpoint = BaseUrl + 'getFile';
-    getAssignmentsEndpoint = BaseUrl + 'getAssignments';
-    createAnnouncementsEndpoint = BaseUrl + 'createAnnouncements';
-    createClassesEndpoint = BaseUrl + 'createClasses';
-    getClassesEndpoint = BaseUrl + 'getClasses';
-    getStudentFromClassEndpoint = BaseUrl + 'getStudentFromClass';
-    createUserIdsWithExcelFileEndpoint = BaseUrl + 'createUserIdsWithExcelFile'
-}
-
-export {
-    getCalendarEndpoint,
-    saveAttendanceEndpoint,
-    getAllStudentsEndpoint,
-    saveMarksEndpoint,
-    getClassEndpoint,
-    marksOfClassEndpoint,
-    getAllTestsEndpoint,
-    fetchEventsEndpoint,
-    createNewTestEndpoint,
-    uploadFileEndpoint,
-    getFileEndpoint,
-    getAssignmentsEndpoint,
-    createAnnouncementsEndpoint,
-    createClassesEndpoint,
-    getClassesEndpoint,
-    getStudentFromClassEndpoint,
-    createUserIdsWithExcelFileEndpoint
-};
+exports.getCalendarEndpoint = BaseUrl + 'getCalendar';
+exports.saveAttendanceEndpoint = BaseUrl + 'saveAttendance';
+exports.getAllStudentsEndpoint = BaseUrl + 'getAllStudentsfromClass';
+exports.saveMarksEndpoint = BaseUrl + 'saveMarks';
+exports.getClassEndpoint = BaseUrl + 'getClass';
+exports.marksOfClassEndpoint = BaseUrl + 'marksofclass';
+exports.getAllTestsEndpoint = BaseUrl + 'getAllTests';
+exports.fetchEventsEndpoint = BaseUrl + 'fetchEvents';
+exports.createNewTestEndpoint = BaseUrl + 'createNewTest';
+exports.uploadFileEndpoint = BaseUrl + 'uploadFile';
+exports.getFileEndpoint = BaseUrl + 'getFile';
+exports.getAssignmentsEndpoint = BaseUrl + 'getAssignments';
+exports.createAnnouncementsEndpoint = BaseUrl + 'createAnnouncements';
+exports.createClassesEndpoint = BaseUrl + 'createClasses';
+exports.getClassesEndpoint = BaseUrl + 'getClasses';
+exports.getStudentFromClassEndpoint = BaseUrl + 'getStudentFromClass';
+exports.createUserIdsWithExcelFileEndpoint = BaseUrl + 'createUserIdsWithExcelFile';
+exports.createUsersWithIdEndpoint = BaseUrl + 'createUsersWithId';

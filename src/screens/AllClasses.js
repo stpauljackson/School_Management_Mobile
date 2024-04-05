@@ -12,18 +12,17 @@ import axios from 'axios';
 import {getClassesEndpoint} from '../api/api';
 import Loader from '../components/Loader';
 
-function convertArray(array) {
-  const result = [];
-  array.forEach(obj => {
-    const existingEntry = result.find(entry => entry.class === obj.class);
-    if (existingEntry) {
-      existingEntry.sections.push(obj.section.toUpperCase());
-    } else {
-        result.push({id: obj.id, class: obj.class, sections: [obj.section.toUpperCase()]});
-    }
-  });
-  return result;
-}
+function convertArray(Array) {
+    const result = {};
+    Array.forEach(obj => {
+      if (result[obj.class]) {
+        result[obj.class].sections.push({ id: obj.id, section: obj.section });
+      } else {
+        result[obj.class] = { class: obj.class, sections: [{ id: obj.id, section: obj.section }] };
+      }
+    });
+    return Object.values(result);
+  }
 
 export default function AllClasses({navigation}) {
   const userData = useSelector(state => state?.Auth?.userData);
@@ -48,6 +47,7 @@ export default function AllClasses({navigation}) {
     }
   };
   useEffect(() => {
+    console.log('classes',classes);
     fetchClasses();
   }, []);
   if (loading) return <Loader />;
@@ -73,10 +73,10 @@ export default function AllClasses({navigation}) {
                 paddingHorizontal:10
               }}>
               {item.sections.map(section => (
-                <TouchableNativeFeedback onPress={() => navigation.navigate('Add Classes', {class: item.class, section: section,id:item.id})}>
+                <TouchableNativeFeedback onPress={() => navigation.navigate('Add Classes', {class: item.class, section: section.section,id:section.id})}>
                   <View style={styles.bubble}>
                     <Text key={section} style={styles.title}>
-                      {section}
+                      {section.section}
                     </Text>
                   </View>
                 </TouchableNativeFeedback>

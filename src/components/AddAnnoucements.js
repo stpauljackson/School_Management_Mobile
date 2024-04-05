@@ -4,7 +4,7 @@ import Button from './Button';
 import Loader from './Loader';
 import axios from 'axios';
 import {createAnnouncementsEndpoint} from '../api/api'
-export default function AddAnnoucements({visible, toggle,schoolId}) {
+export default function AddAnnoucements({visible, toggle,schoolId,setMessages}) {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const [title, setTitle] = useState('')
@@ -21,6 +21,8 @@ export default function AddAnnoucements({visible, toggle,schoolId}) {
                 headers: {'Content-Type': 'application/json'}
             }
             const res = await axios.post(createAnnouncementsEndpoint, payload, config)
+            setMessages(prev => [...prev, res.data].sort((a, b) => new Date(b.currentDate) - new Date(a.currentDate)))
+
             setLoading(false)
             toggle()
         } catch (error) {

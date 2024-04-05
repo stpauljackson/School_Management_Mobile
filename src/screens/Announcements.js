@@ -11,6 +11,7 @@ export default function Announcements({navigation}) {
   const schoolId = userData.schoolId;
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([]);
+  const [scroll, setScroll] = useState(null);
 
   const [visible, setVisible] = useState(false);
   const toggle = () => setVisible(!visible);
@@ -26,8 +27,8 @@ export default function Announcements({navigation}) {
         fetchEventsEndpoint,
         payload,
       );
-      console.log(response.data);
-      setMessages(response.data);
+      setMessages(response.data.sort((a, b) => new Date(b.currentDate) - new Date(a.currentDate)));
+
       return;
     } catch (error) {
       console.error('Error fetching class:', error);
@@ -43,17 +44,24 @@ export default function Announcements({navigation}) {
     }
   }, [schoolId]);
 
+  useEffect(() => {
+    if(scroll){
+      scroll.scrollToOffset({animated: true, offset: 0});
+    }
+  }, [messages]);
+
   if (loading) return <Loader />
 
   return (
     <View style={{flex:1}}>
       <FlatList
+        ref={ref => setScroll(ref)}
         data={messages}
         keyExtractor={item => item.title}
         renderItem={({item}) => <Message item={item} navigation={navigation} />}
         numColumns={1}
       />
-      <AddAnnoucements visible={visible} toggle={toggle} schoolId={userData.schoolId}/>
+      <AddAnnoucements visible={visible} toggle={toggle} schoolId={userData.schoolId} setMessages={setMessages}/>
       {userData.type === 'admin' &&
       <TouchableNativeFeedback onPress={()=>{toggle()}}>
         <View style={styles.button}>

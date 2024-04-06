@@ -1,4 +1,4 @@
-let ENV = 'prod'; // 'prod or dev'
+let ENV = 'dev'; // 'prod or dev'
 
 let BaseUrl = (ENV === 'prod') ? 'https://us-central1-edge-2060b.cloudfunctions.net/' : 'http://10.0.2.2:5001/edge-2060b/us-central1/';
 

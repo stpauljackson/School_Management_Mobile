@@ -11,6 +11,7 @@ import axios from 'axios';
 
 import {getClassesEndpoint} from '../api/api';
 import Loader from '../components/Loader';
+import Accordion from '../components/Accordian';
 
 function convertArray(Array) {
     const result = {};
@@ -55,36 +56,7 @@ export default function AllClasses({navigation}) {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={classes}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <View style={styles.cardContainer}>
-            <View>
-              <Text style={styles.title}>Class - {item.class}</Text>
-            </View>
-            <Text style={styles.title}>Sections</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                flex: 1,
-                width: '100%',
-                justifyContent: 'space-evenly',
-                paddingHorizontal:10
-              }}>
-              {item.sections.map(section => (
-                <TouchableNativeFeedback onPress={() => navigation.navigate('Add Classes', {class: item.class, section: section.section,id:section.id})}>
-                  <View style={styles.bubble}>
-                    <Text key={section} style={styles.title}>
-                      {section.section}
-                    </Text>
-                  </View>
-                </TouchableNativeFeedback>
-              ))}
-            </View>
-          </View>
-        )}
-      />
+        <Accordion data={classes} navigation={navigation}/>
     </View>
   );
 }
@@ -94,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     width: '100%',
+    padding:10
   },
   cardContainer: {
     flex: 1,

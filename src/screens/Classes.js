@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableNativeFeedback,
-} from 'react-native';
+import { View, Text, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
@@ -25,7 +19,7 @@ function convertArray(Array) {
     return Object.values(result);
   }
 
-export default function AllClasses({navigation}) {
+export default function Classes({navigation}) {
   const userData = useSelector(state => state?.Auth?.userData);
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(false);

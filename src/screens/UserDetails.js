@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import { useSelector } from 'react-redux';
-export default function StudentDetails({route}) {
-const userData = useSelector(state => state?.Auth?.userData);
-  const studentInfo = route?.params?.studentInfo || userData;
+
+export default function UserDetails({route}) {
+  const userInfo = route?.params?.userInfo;
   // Mapping of keys to labels
   const keyToLabel = {
     firstName: 'First Name',
@@ -68,7 +67,7 @@ const userData = useSelector(state => state?.Auth?.userData);
   const renderDetails = () => {
     return detailOrder.map(key => {
       const label = keyToLabel[key];
-      const value = studentInfo[key];
+      const value = userInfo[key];
       return (
         <View style={styles.row} key={key}>
           <Text style={styles.label}>{label}</Text>
@@ -80,7 +79,19 @@ const userData = useSelector(state => state?.Auth?.userData);
     });
   };
 
-  return <View style={styles.cardContainer}>{renderDetails()}</View>;
+  const badgeColor = {
+    student: '#007bff',
+    teacher: '#28a745',
+    admin: '#dc3545',
+  };
+
+  return (
+    <View style={styles.cardContainer}>
+      <View style={[styles.badge, { backgroundColor: badgeColor[userInfo.role] }]} />
+      {renderDetails()}
+    </View>
+  );
+
 }
 
 const styles = StyleSheet.create({

@@ -17,6 +17,6 @@ exports.getAssignmentsEndpoint = BaseUrl + 'getAssignments';
 exports.createAnnouncementsEndpoint = BaseUrl + 'createAnnouncements';
 exports.createClassesEndpoint = BaseUrl + 'createClasses';
 exports.getClassesEndpoint = BaseUrl + 'getClasses';
-exports.getStudentFromClassEndpoint = BaseUrl + 'getStudentFromClass';
+exports.getUsersByClassOrSchoolEndpoint = BaseUrl + 'getUsersByClassOrSchool';
 exports.createUserIdsWithExcelFileEndpoint = BaseUrl + 'createUserIdsWithExcelFile';
 exports.createUsersWithIdEndpoint = BaseUrl + 'createUsersWithId';

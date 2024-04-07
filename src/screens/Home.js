@@ -20,11 +20,14 @@ const screenData = {
   ],
   student: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
-    {key:'Student Details' , name: 'My Details', iconName: 'people'},
+    {key:'User Details' , name: 'My Details', iconName: 'people'},
   ],
   admin: [
+    {key:'Dashboard' , name: 'Dashboard', iconName: 'home'},
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
-    {key: 'All Classes', name: 'Add Classes', iconName: 'document-text'},
+    {key: 'Classes', name: 'Students', iconName: 'school'},
+    {key:'Teachers' , name: 'Teachers', iconName: 'person-add'},
+    {key:'Add Employee' , name: 'Add Employee', iconName: 'person-add'},
   ],
   employee: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},

@@ -7,11 +7,12 @@ import {
   StyleSheet,
 } from 'react-native';
 import axios from 'axios';
-import {getStudentFromClassEndpoint} from '../api/api';
+import {getUsersByClassOrSchoolEndpoint} from '../api/api';
 import AddStudentModal from '../components/AddStudentModal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import UserListCard from '../components/UserListCard';
 
-export default function AddClasses({navigation,route}) {
+export default function Students({navigation,route}) {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
@@ -19,14 +20,14 @@ export default function AddClasses({navigation,route}) {
   const toggle = () => setVisible(!visible);
 
   useEffect(() => {
-    console.log('class id', route.params.id);
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await axios.post(getStudentFromClassEndpoint, {
+      const response = await axios.post(getUsersByClassOrSchoolEndpoint, {
         classId: route.params.id,
+        type:'student'
       });
       setStudents(response.data);
     } catch (error) {
@@ -35,15 +36,6 @@ export default function AddClasses({navigation,route}) {
       setLoading(false);
     }
   };
-
-  const renderStudent = ({item,index}) => (
-    <TouchableNativeFeedback onPress={() => {navigation.navigate('Student Details',{studentInfo:item})}}>
-    <View style={styles.cardContainer}>
-      <Text style={{fontWeight:'bold',fontSize:20}}>{index+1}. {item.firstName} {item.lastName}</Text> 
-      <Ionicons name="chevron-forward" size={25} color="gray" />
-    </View>
-    </TouchableNativeFeedback>
-  );
 
   if (loading) {
     return <Loader />;
@@ -57,7 +49,7 @@ export default function AddClasses({navigation,route}) {
         <View style={{flex: 1,justifyContent:'center',width:"100%"}}>
         <FlatList
           data={students}
-          renderItem={renderStudent}
+          renderItem={({item, index}) =>  <UserListCard item={item} index={index} navigation={navigation} />}
           keyExtractor={item => item.id.toString()}
         />
         </View>

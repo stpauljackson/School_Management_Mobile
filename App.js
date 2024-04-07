@@ -24,9 +24,11 @@ import Loader from './src/components/Loader';
 import Assignments from './src/screens/Assignments';
 import AllAssignments from './src/screens/AllAssignments';
 import Notifications from './src/screens/Notifications';
-import AllClasses from './src/screens/AllClasses';
-import AddClasses from './src/screens/AddClasses';
-import StudentDetails from './src/screens/StudentDetails';
+import Classes from './src/screens/Classes';
+import Students from './src/screens/Students';
+import UserDetails from './src/screens/UserDetails';
+import Teachers from './src/screens/Teachers';
+import DashBoard from './src/screens/DashBoard';
 export default function App() {
   const [initializing, setInitializing] = useState(true);
   const user = useSelector(state => state.Auth.user);
@@ -128,7 +130,7 @@ export default function App() {
         <Stack.Screen name="Select Test" component={SelectTest} />
         <Stack.Screen name="Announcements" component={Announcements} />
         <Stack.Screen name="Add Marks" component={AddStudentMarks} />
-        <Stack.Screen name="All Classes" component={AllClasses} />
+        <Stack.Screen name="Classes" component={Classes} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="Assignments" component={Assignments} />
         <Stack.Screen
@@ -141,11 +143,13 @@ export default function App() {
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen 
         name="Add Classes" 
-        component={AddClasses}
+        component={Students}
         options={({route}) => ({headerTitle: 'Class ' + route.params?.class + ' ' + route.params?.section})} />
-        <Stack.Screen name="Student Details" component={StudentDetails} 
-        options={({route}) => ({headerTitle: route.params?.name || 'Student Details'})}
+        <Stack.Screen name="User Details" component={UserDetails} 
+        options={({route}) => ({headerTitle: route.params?.name || 'User Details'})}
         />
+        <Stack.Screen name="Teachers" component={Teachers} />
+        <Stack.Screen name="Dashboard" component={DashBoard} />
       </Stack.Navigator>
     </NavigationContainer>
   );

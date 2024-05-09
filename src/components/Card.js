@@ -6,7 +6,7 @@ export default function Card({item,navigation}) {
     
     return (
         <TouchableOpacity 
-        onPress={()=>navigation.navigate(item.key)} 
+        onPress={()=>navigation.navigate(item.key,item?.params)} 
         style={styles.cardContainer}>
             <Ionicons name={item?.iconName} size={25} color="black" />
           <Text style={styles.cardText}>{item.name}</Text>

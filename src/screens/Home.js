@@ -25,9 +25,9 @@ const screenData = {
   admin: [
     {key:'Dashboard' , name: 'Dashboard', iconName: 'home'},
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
-    {key: 'Classes', name: 'Students', iconName: 'school'},
-    {key:'Teachers' , name: 'Teachers', iconName: 'person-add'},
-    {key:'Add Employee' , name: 'Add Employee', iconName: 'person-add'},
+    {key: 'Classes', name: 'Students', iconName: 'school',params:{type:'student'}},
+    {key:'Users' , name: 'Teachers', iconName: 'person-add',params:{type:'teacher',title:'Teachers'}},
+    {key:'Users' , name: 'Employees', iconName: 'person-add',params:{type:'employee',title:'Employees'}},
   ],
   employee: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
@@ -44,7 +44,7 @@ const getScreenList = userType => {
 
 export default function Home({navigation}) {
   const userData = useSelector(state => state?.Auth?.userData);
-  const data = useMemo(() => getScreenList(userData?.type), [userData?.type]);
+  const data = getScreenList(userData?.type)
   useEffect(() => {
     console.log(userData);
   }, []);

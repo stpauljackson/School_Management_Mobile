@@ -9,7 +9,6 @@ import {
 import axios from 'axios';
 import {getUsersByClassOrSchoolEndpoint} from '../api/api';
 import AddStudentModal from '../components/AddStudentModal';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import UserListCard from '../components/UserListCard';
 
 export default function Students({navigation,route}) {

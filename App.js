@@ -27,7 +27,7 @@ import Notifications from './src/screens/Notifications';
 import Classes from './src/screens/Classes';
 import Students from './src/screens/Students';
 import UserDetails from './src/screens/UserDetails';
-import Teachers from './src/screens/Teachers';
+import Users from './src/screens/Users';
 import DashBoard from './src/screens/DashBoard';
 export default function App() {
   const [initializing, setInitializing] = useState(true);
@@ -148,7 +148,9 @@ export default function App() {
         <Stack.Screen name="User Details" component={UserDetails} 
         options={({route}) => ({headerTitle: route.params?.name || 'User Details'})}
         />
-        <Stack.Screen name="Teachers" component={Teachers} />
+        <Stack.Screen name="Users" component={Users} 
+        options={({route}) => ({headerTitle: route.params?.title || 'Users'})}
+        />
         <Stack.Screen name="Dashboard" component={DashBoard} />
       </Stack.Navigator>
     </NavigationContainer>

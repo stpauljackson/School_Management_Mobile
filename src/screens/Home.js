@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet,View, Text, TouchableNativeFeedback} from 'react-native';
+import { StatusBar, StyleSheet,View, Text, TouchableNativeFeedback} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 
 import Header from '../components/Header';
 import Card from '../components/Card';
 import Greetings from '../components/Greetings';
-import auth from '@react-native-firebase/auth';
+
 const screenData = {
   teacher: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},
@@ -49,7 +49,7 @@ export default function Home({navigation}) {
     console.log(userData);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={{backgroundColor:'white', flex:1}}>
       <Header navigation={navigation} />
       <Greetings />
       <FlatList
@@ -58,39 +58,6 @@ export default function Home({navigation}) {
         renderItem={({item}) => <Card item={item} navigation={navigation} />}
         numColumns={2}
       />
-      <TouchableNativeFeedback  onPress={() => {
-          auth().signOut()
-            .then(() => console.log('logged out'))
-            .catch(e => console.log('error logging out: ', e.message))
-        }}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </View>
-      </TouchableNativeFeedback>
-    </SafeAreaView>
+      </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    height: '100%',
-    width: '100%',
-    marginTop: StatusBar.currentHeight,
-  },
-  button: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 20,
-    height: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'royalblue',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});

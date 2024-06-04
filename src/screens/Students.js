@@ -58,8 +58,8 @@ export default function Students({navigation,route}) {
         toggle={toggle}
         classId={route.params.id}
         fetchData={fetchData}
+        type="student"
       />
-
       <TouchableNativeFeedback onPress={toggle}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Add Student</Text>

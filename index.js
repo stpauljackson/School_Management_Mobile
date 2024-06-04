@@ -7,6 +7,7 @@ import messaging from '@react-native-firebase/messaging';
 import App from './App';
 import { name as appName } from './app.json';
 import 'react-native-gesture-handler';
+import 'react-native-reanimated';
 import {Provider} from 'react-redux';
 import { enableScreens } from 'react-native-screens';
 enableScreens();

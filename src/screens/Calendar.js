@@ -28,6 +28,15 @@ const getMaxDate = () => {
   }
 };
 
+const getCurrentDate = () => {
+    const today = new Date();
+    const currentDate = String(today.getDate()).padStart(2, '0');
+    const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
+    const currentYear = today.getFullYear();
+    const DateString = `${currentYear}-${currentMonth}-${currentDate}`;
+    return DateString;
+}
+
 const MyCalendar = () => {
   const today = new Date().toISOString().split('T')[0];
   const userData = useSelector(state => state?.Auth?.userData);
@@ -65,7 +74,7 @@ const MyCalendar = () => {
     }
   };
   useEffect(() => {
-    fetchCalendarData(userData.school);
+    fetchCalendarData(userData.schoolId);
   }, []);
 
   if (loading) return <Loader />;
@@ -89,7 +98,7 @@ const MyCalendar = () => {
         
       </View>
       <CalendarList
-        current={'2024-03-10'}
+        current={getCurrentDate()}
         pastScrollRange={24}
         futureScrollRange={24}
         horizontal={false}

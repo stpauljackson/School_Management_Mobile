@@ -5,7 +5,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Header({navigation}) {
   return (
     <View style={styles.container}>
-      <Ionicons name="menu" size={25} color="black" />
+       <TouchableNativeFeedback onPress={()=>navigation.toggleDrawer()}><Ionicons name="menu" size={25} color="black" /></TouchableNativeFeedback> 
+      
       <Text style={styles.text}>School App</Text>
       <TouchableNativeFeedback onPress={()=>navigation.navigate('Notifications')}>
         <Ionicons name="notifications" size={25} color="black" />

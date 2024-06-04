@@ -56,7 +56,7 @@ const fields = [
   {label: 'Board Roll No.', state: 'boardRollNo', keyboardType: 'numeric'},
   {label: 'Total Siblings', state: 'totalSiblings', keyboardType: 'numeric'},
 ];
-export default function AddStudentModal({visible, toggle, classId,fetchData}) {
+export default function AddStudentModal({visible, toggle, classId,fetchData,type}) {
   const userData = useSelector(state => state?.Auth?.userData);
   const [formData, setFormData] = useState({classId, schoolId:userData.schoolId,type:'student'});
   const [selectedFile, setSelectedFile] = useState(null);
@@ -64,7 +64,7 @@ export default function AddStudentModal({visible, toggle, classId,fetchData}) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setFormData({classId, schoolId:userData.schoolId,type:'student'});
+    setFormData({classId, schoolId:userData.schoolId,type:type});
     setSource(null);
   }, [visible]);
 

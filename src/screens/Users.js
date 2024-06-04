@@ -10,6 +10,7 @@ import axios from 'axios';
 import {useSelector} from 'react-redux';
 
 import {getUsersByClassOrSchoolEndpoint} from '../api/api';
+import AddStudentModal from '../components/AddStudentModal';
 import Loader from '../components/Loader';
 import UserListCard from '../components/UserListCard';
 
@@ -18,6 +19,9 @@ export default function Users({navigation, route}) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const type = route?.params?.type;
+
+  const [visible, setVisible] = useState(false);
+  const toggle = () => setVisible(!visible);
 
   const fetchData = async () => {
     setLoading(true);
@@ -45,7 +49,14 @@ export default function Users({navigation, route}) {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text>No {type} Found</Text>
         </View>
-        <TouchableNativeFeedback>
+        <AddStudentModal
+        visible={visible}
+        toggle={toggle}
+        classId={route.params.id}
+        fetchData={fetchData}
+        type={type}
+      />
+        <TouchableNativeFeedback onPress={toggle}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Add {route?.params?.title}</Text>
           </View>
@@ -61,7 +72,14 @@ export default function Users({navigation, route}) {
           <UserListCard item={item} index={index} navigation={navigation} />
         )}
       />
-      <TouchableNativeFeedback>
+      <AddStudentModal
+        visible={visible}
+        toggle={toggle}
+        classId={route.params.id}
+        fetchData={fetchData}
+        type={type}
+      />
+      <TouchableNativeFeedback onPress={toggle}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Add {route?.params?.title}</Text>
         </View>

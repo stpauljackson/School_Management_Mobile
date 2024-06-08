@@ -53,6 +53,7 @@ export default function Home({navigation}) {
     <View style={{backgroundColor:'white', flex:1}}>
       <Header navigation={navigation} />
       <Greetings />
+      <Text style={{padding:10,fontWeight:'bold',fontSize:20,color:'#777',marginTop:10}}>Academics</Text>
       <FlatList
         data={data}
         keyExtractor={item => item.name}

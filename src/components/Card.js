@@ -1,25 +1,33 @@
 import { View, Text, StyleSheet, TouchableOpacity,Image } from 'react-native'
 import React from 'react'
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import announcementImg from '../Assets/Announcements.jpg';
-import uploadMarksImg from '../Assets/Upload.jpg';
-import attendanceImg from '../Assets/Attendance.jpg';
-import calendarImg from '../Assets/Calendar.jpg';
-import examImg from '../Assets/Exam.jpg';
-import resultsImg from '../Assets/Results.jpg';
-import timetableImg from '../Assets/TimeTable.jpg';
-import assignmentsImg from '../Assets/Assignments.jpg';
-
+import announcementImg from '../Assets/announcement.png';
+import uploadMarksImg from '../Assets/upload.png';
+import attendanceImg from '../Assets/attendance.png';
+import calendarImg from '../Assets/calendar.png';
+import examImg from '../Assets/Exam.png';
+import resultsImg from '../Assets/Results.png';
+import timetableImg from '../Assets/TimeTable.png';
+import assignmentsImg from '../Assets/assignment.png';
+import Profile from '../Assets/Profile.png';
+import Dashboard from '../Assets/Dashboard.png';
+import student from '../Assets/student.png';
+import teacher from '../Assets/teacher.png';
+import employee from '../Assets/employee.png';
 const icons = {
-    'Attendance': attendanceImg,
+    'Take Attendance': attendanceImg,
     'Upload Marks': uploadMarksImg,
     'Calendar': calendarImg,
     'Assignments': assignmentsImg,
     'Announcements': announcementImg,
     'TimeTable': timetableImg,
     'Results': resultsImg,
-    'Examinations': examImg
+    'Examinations': examImg,
+    'My Details': Profile,
+    "Dashboard": Dashboard,
+    "Students":student,
+    "Teachers":teacher,
+    "Employees":employee
 }
 
 export default function Card({item,navigation}) {
@@ -28,7 +36,7 @@ export default function Card({item,navigation}) {
         <TouchableOpacity 
         onPress={()=>navigation.navigate(item.key,item?.params)} 
         style={styles.cardContainer}>
-            <Image style={styles.img} source={icons[item.key]} />
+            <Image style={styles.img} source={icons[item.name]} />
           <Text style={styles.cardText}>{item.name}</Text>
         </TouchableOpacity>
       );
@@ -54,12 +62,12 @@ export default function Card({item,navigation}) {
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
+        elevation: 3,
       },
       cardText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#555',
         marginTop: 10,
       },
     });

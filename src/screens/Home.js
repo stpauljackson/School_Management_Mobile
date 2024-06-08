@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import Card from '../components/Card';
 import Greetings from '../components/Greetings';
 
+
 const screenData = {
   teacher: [
     {key: 'Announcements', name: 'Announcements', iconName: 'megaphone'},

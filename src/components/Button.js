@@ -17,11 +17,13 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'royalblue',
     borderRadius: 5,
     paddingVertical: 10,
     elevation: 3,
-    height:40
+    height:40,
+    paddingHorizontal:10
   },
   buttonText: {
     color: 'white',

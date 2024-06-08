@@ -4,6 +4,7 @@ import {CalendarList} from 'react-native-calendars';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {getCalendarEndpoint} from '../api/api';
+import Loader from '../components/Loader';
 
 const getMinDate = () => {
   const today = new Date();

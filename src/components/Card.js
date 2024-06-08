@@ -1,6 +1,26 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity,Image } from 'react-native'
 import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import announcementImg from '../Assets/Announcements.jpg';
+import uploadMarksImg from '../Assets/Upload.jpg';
+import attendanceImg from '../Assets/Attendance.jpg';
+import calendarImg from '../Assets/Calendar.jpg';
+import examImg from '../Assets/Exam.jpg';
+import resultsImg from '../Assets/Results.jpg';
+import timetableImg from '../Assets/TimeTable.jpg';
+import assignmentsImg from '../Assets/Assignments.jpg';
+
+const icons = {
+    'Attendance': attendanceImg,
+    'Upload Marks': uploadMarksImg,
+    'Calendar': calendarImg,
+    'Assignments': assignmentsImg,
+    'Announcements': announcementImg,
+    'TimeTable': timetableImg,
+    'Results': resultsImg,
+    'Examinations': examImg
+}
 
 export default function Card({item,navigation}) {
     
@@ -8,13 +28,17 @@ export default function Card({item,navigation}) {
         <TouchableOpacity 
         onPress={()=>navigation.navigate(item.key,item?.params)} 
         style={styles.cardContainer}>
-            <Ionicons name={item?.iconName} size={25} color="black" />
+            <Image style={styles.img} source={icons[item.key]} />
           <Text style={styles.cardText}>{item.name}</Text>
         </TouchableOpacity>
       );
     }
     
     const styles = StyleSheet.create({
+        img:{
+            height:50,
+            width:50
+        },
       cardContainer: {
         flex: 1,
         margin: 10,
@@ -36,5 +60,6 @@ export default function Card({item,navigation}) {
         fontSize: 16,
         fontWeight: 'bold',
         color: '#333',
+        marginTop: 10,
       },
     });

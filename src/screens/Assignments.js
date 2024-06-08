@@ -21,6 +21,7 @@ export default function UploadMarks({navigation}) {
           );
 
           Setclasses(response.data)
+          console.log(response.data)
           return 
         } catch (error) {
           console.error('Error fetching class:', error);

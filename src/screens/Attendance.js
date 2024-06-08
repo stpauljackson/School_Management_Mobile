@@ -6,6 +6,8 @@ import axios from 'axios';
 import Loader from '../components/Loader';
 import {getAllStudentsEndpoint, saveAttendanceEndpoint} from '../api/api';
 import Button from '../components/Button';
+import DefaultLoader from '../components/DefaultLoader';
+import LotteLoader from '../components/LotteLoader';
 
 const StudentList = ({item, onPress}) => {
   return (
@@ -112,7 +114,7 @@ console.log("payload",payload)
   }
   return (
     <View style={{flex: 1}}>
-      {saving && <Loader />}
+      {saving && <LotteLoader />}
       <View style={{flex: 1, paddingBottom: 40}}>
         <FlatList
           data={students}

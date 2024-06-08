@@ -2,7 +2,7 @@ import { View, Text, TouchableNativeFeedback, StyleSheet } from 'react-native'
 import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function UserListCard({item, index, navigation,}) {
+export default function UserListCard({item, index, navigation}) {
   return (
     <TouchableNativeFeedback onPress={() => {navigation.navigate('User Details',{userInfo:item,name:`${item.firstName||''} ${item.lastName||''}`})}}>
       <View style={styles.cardContainer}>

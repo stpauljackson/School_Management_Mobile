@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import StackNavigator from './StackNavigator';
 import ChatHistory from '../screens/ChatHistory';
+import ChatStackNavigator from '../screens/ChatStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +23,7 @@ const BottomTabNavigator = () => (
           let iconName;
           if (route.name === 'StackNavigator') {
             iconName = 'home';
-          } else if (route.name === 'Chat') {
+          } else if (route.name === 'ChatScreen') {
             iconName = 'chatbox-ellipses';
           }
           return <Icon name={iconName} size={size} color={color} />;
@@ -30,7 +31,7 @@ const BottomTabNavigator = () => (
     })}
   >
     <Tab.Screen name="StackNavigator" component={StackNavigator} />
-    <Tab.Screen name="Chat" component={ChatHistory} />
+    <Tab.Screen name="ChatScreen" component={ChatStackNavigator} />
   </Tab.Navigator>
 );
 

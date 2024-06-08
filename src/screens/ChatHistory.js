@@ -18,7 +18,7 @@ export default function ChatHistory({navigation}) {
     fetchChatList();
   }, []);
 
-  const chatListContacts = chatList.map((item) => item.contact).filter((value, index, self) => self.indexOf(value) === index);
+  const chatListContacts = chatList.map((item) => item)
 
   return (
     <View style={styles.container}>
@@ -36,7 +36,7 @@ export default function ChatHistory({navigation}) {
         keyExtractor={(item) => item}
       />
       <TouchableNativeFeedback 
-      //onPress={() => navigation.navigate('Contacts')}
+      onPress={() => navigation.navigate('Contacts')}
       >
         <View style={styles.fab}>
           <Ionicons name="add" size={25} color="white" />

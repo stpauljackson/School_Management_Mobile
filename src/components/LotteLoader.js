@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
 
-const Loader = () => {
+const LotteLoader = () => {
   return (
     <View style={styles.container}>
       <LottieView
@@ -20,8 +20,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    zIndex: 5,
   },
 });
 
-export default Loader;
+export default LotteLoader;

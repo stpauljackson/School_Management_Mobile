@@ -16,9 +16,10 @@ async function setTokenToFirebase(uid) {
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   const handleLogin = async () => {
+    setLoading(true);
     try {
        const user = await auth().signInWithEmailAndPassword(email, password);
         await setTokenToFirebase(user.user.uid);
@@ -26,6 +27,9 @@ const AuthComponent = () => {
 
       console.error('Login error:', e);
       setError('Invalid email or password. Please try again.');
+    }
+    finally {
+      setLoading(false);
     }
   };
 

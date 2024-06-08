@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux';
 
 import {getAssignmentsEndpoint} from '../api/api';
 import UploadAssignmentModal from './UploadAssignment';
+import Loader from '../components/Loader';
 
 export default function AllAssignments({navigation, route}) {
   const teacherId = useSelector(state => state.Auth.user);
@@ -51,7 +52,7 @@ export default function AllAssignments({navigation, route}) {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text>No assignments</Text>
+        <Text style={{color:'black'}}>No assignments</Text>
         <UploadAssignmentModal
           visible={visible}
           toggle={toggle}

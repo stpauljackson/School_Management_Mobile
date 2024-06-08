@@ -18,7 +18,6 @@ import Students from '../screens/Students';
 import UserDetails from '../screens/UserDetails';
 import Users from '../screens/Users';
 import DashBoard from '../screens/DashBoard';
-import ChatHistory from '../screens/ChatHistory';
 
 export default function StackNavigator() {
   return (
@@ -43,7 +42,9 @@ export default function StackNavigator() {
             headerTitle: route.params?.headerTitle || 'All Assignments',
           })}
         />
-        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Notifications" component={Notifications}
+        tabBarStyle={{ display: 'none' }}
+        options={{ tabBarStyle: { display: 'none' } }} />
         <Stack.Screen
           name="Add Classes"
           component={Students}
@@ -65,7 +66,6 @@ export default function StackNavigator() {
           options={({route}) => ({headerTitle: route.params?.title || 'Users'})}
         />
         <Stack.Screen name="Dashboard" component={DashBoard} />
-        <Stack.Screen name="Chat History" component={ChatHistory} />
       </Stack.Navigator>
   );
 }

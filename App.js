@@ -10,9 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {fetchUserData, setUser} from './src/store/slice';
 import AuthComponent from './src/auth/AuthComponent';
 import Loader from './src/components/Loader';
-import {NavigationContainer} from '@react-navigation/native';
-import StackNavigator from './src/navigation/StackNavigator';
-import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import DrawerNavigator from './src/navigation/DrawerNavigation';
 
 export default function App() {

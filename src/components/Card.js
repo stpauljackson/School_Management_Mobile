@@ -36,7 +36,7 @@ export default function Card({item,navigation}) {
         <TouchableOpacity 
         onPress={()=>navigation.navigate(item.key,item?.params)} 
         style={styles.cardContainer}>
-            <Image style={styles.img} source={icons[item.name]} />
+            <Image style={styles.img} source={icons[item.iconName]} />
           <Text style={styles.cardText}>{item.name}</Text>
         </TouchableOpacity>
       );

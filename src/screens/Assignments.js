@@ -1,40 +1,12 @@
 import { View, Text, TouchableNativeFeedback, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {useSelector} from 'react-redux';
-import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
-import { getClassEndpoint } from '../api/api';
-import Loader from '../components/Loader';
+
 export default function UploadMarks({navigation}) {
     const user = useSelector(state => state?.Auth?.user)
-    const [classes,Setclasses] = useState([])
-    const [loading, SetLoading] = useState(false)
-    const fetchClass = async () => {
-        SetLoading(true)
-        const payload = {
-          uid: user,
-        };
-        try {
-          const response = await axios.post(
-            getClassEndpoint,
-            payload,
-          );
+    const {classes} = useSelector(state => state?.Auth?.userData)
 
-          Setclasses(response.data)
-          console.log(response.data)
-          return 
-        } catch (error) {
-          console.error('Error fetching class:', error);
-          throw error;
-        }
-        finally{
-            SetLoading(false)
-        }
-      };
-    useEffect(()=>{
-        if(user) fetchClass();
-    },[user])
-    if(loading) return <Loader />
   return (
     <View style={{flex: 1, paddingBottom: 40}}>
         <FlatList
@@ -54,7 +26,7 @@ export default function UploadMarks({navigation}) {
 
 const Classes = ({item,navigation}) => {
     return (
-      <TouchableNativeFeedback onPress={()=>navigation.navigate('All Assignments',{classId:item.id, headerTitle: `${item.class} ${item.section} (${item.subject})`})}>
+      <TouchableNativeFeedback onPress={()=>navigation.navigate('All Assignments',{classId:item.classId, headerTitle: `${item.class} ${item.section} (${item.subject})`})}>
         <View style={styles.cardContainer}>
           <Text style={styles.name}>{item.class} {item.section} ({item.subject})</Text>
         </View>

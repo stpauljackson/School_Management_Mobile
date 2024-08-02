@@ -10,6 +10,7 @@ export default UploadAssignmentModal = ({visible, toggle, classId}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [assignmentName, setAssignmentName] = useState('');
   const teacherId = useSelector(state => state.Auth.user);
+  const {schoolId} = useSelector(state => state.Auth.userData);
   const handleFileSelection = async () => {
     try {
       const res = await DocumentPicker.pick({
@@ -37,6 +38,7 @@ export default UploadAssignmentModal = ({visible, toggle, classId}) => {
       });
       formData.append('teacherId', teacherId);
       formData.append('classId', classId);
+      formData.append('schoolId', schoolId);
       formData.append('assignmentName', assignmentName);
 
       const response = await axios.post(uploadFileEndpoint, formData, {

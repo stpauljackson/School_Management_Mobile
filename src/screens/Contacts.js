@@ -23,9 +23,7 @@ export default function ContactList({navigation}) {
     const payload = {
       Type: 'student',
       Class: userData.classId,
-      School: userData.schoolId,
-      purpose: 'attendance',
-      teacherID: user,
+      purpose: 'Contacts',
     };
     try {
       const response = await axios.post(getAllStudentsEndpoint, payload);

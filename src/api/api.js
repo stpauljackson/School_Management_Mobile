@@ -21,3 +21,5 @@ exports.getUsersByClassOrSchoolEndpoint = BaseUrl + 'getUsersByClassOrSchool';
 exports.createUserIdsWithExcelFileEndpoint = BaseUrl + 'createUserIdsWithExcelFile';
 exports.createUsersWithIdEndpoint = BaseUrl + 'createUsersWithId';
 exports.getDashboardEndpoint = BaseUrl + 'getDashboard';
+exports.createNewExamEndpoint = BaseUrl + 'createNewExam';
+exports.getExamsByClassIdEndpoint = BaseUrl + 'student_exam';

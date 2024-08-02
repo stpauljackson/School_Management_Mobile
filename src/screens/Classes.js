@@ -19,7 +19,7 @@ function convertArray(Array) {
     return Object.values(result);
   }
 
-export default function Classes({navigation}) {
+export default function Classes({navigation, route}) {
   const userData = useSelector(state => state?.Auth?.userData);
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ export default function Classes({navigation}) {
 
   return (
     <View style={styles.container}>
-        <Accordion data={classes} navigation={navigation}/>
+        <Accordion data={classes} navigation={navigation} route={route}/>
     </View>
   );
 }

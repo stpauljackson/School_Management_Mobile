@@ -18,7 +18,9 @@ import Students from '../screens/Students';
 import UserDetails from '../screens/UserDetails';
 import Users from '../screens/Users';
 import DashBoard from '../screens/DashBoard';
-
+import DailyPlanner from '../screens/DailyPlanner';
+import Examination from '../screens/Examination';
+import AddExaminations from '../screens/AddExaminations';
 export default function StackNavigator() {
   return (
       <Stack.Navigator initialRouteName="Home">
@@ -35,6 +37,8 @@ export default function StackNavigator() {
         <Stack.Screen name="Classes" component={Classes} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="Assignments" component={Assignments} />
+        <Stack.Screen name="Daily Planner" component={DailyPlanner} />
+        <Stack.Screen name="Examinations" component={Examination} />
         <Stack.Screen
           name="All Assignments"
           component={AllAssignments}

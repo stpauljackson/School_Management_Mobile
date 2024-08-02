@@ -7,33 +7,8 @@ import { getClassEndpoint } from '../api/api';
 import Loader from '../components/Loader';
 export default function UploadMarks({navigation}) {
     const user = useSelector(state => state?.Auth?.user)
-    const [classes,Setclasses] = useState([])
-    const [loading, SetLoading] = useState(false)
-    const fetchClass = async () => {
-        SetLoading(true)
-        const payload = {
-          uid: user,
-        };
-        try {
-          const response = await axios.post(
-            getClassEndpoint,
-            payload,
-          );
+    const {classes} = useSelector(state => state?.Auth?.userData)
 
-          Setclasses(response.data)
-          return 
-        } catch (error) {
-          console.error('Error fetching class:', error);
-          throw error;
-        }
-        finally{
-            SetLoading(false)
-        }
-      };
-    useEffect(()=>{
-        if(user) fetchClass();
-    },[user])
-    if(loading) return <Loader />
   return (
     <View style={{flex: 1, paddingBottom: 40}}>
         <FlatList
@@ -53,7 +28,7 @@ export default function UploadMarks({navigation}) {
 
 const Classes = ({item,navigation}) => {
     return (
-      <TouchableNativeFeedback onPress={()=>navigation.navigate('Select Test',{classId:item.id})}>
+      <TouchableNativeFeedback onPress={()=>navigation.navigate('Examinations',{id:item.id})}>
         <View style={styles.cardContainer}>
           <Text style={styles.name}>{item.class} {item.section} ({item.subject})</Text>
         </View>

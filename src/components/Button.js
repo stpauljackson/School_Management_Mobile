@@ -6,7 +6,7 @@ export default Button = ({ onPress, title,iconName }) => {
   return (
     <TouchableNativeFeedback onPress={onPress}>
       <View style={styles.button}>
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={iconName ? {...styles.buttonText, marginHorizontal: 5} : styles.buttonText}>{title}</Text>
         <Ionicons name={iconName} size={19} color="white" />
       </View>
     </TouchableNativeFeedback>
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginRight:5
   },
 });
 

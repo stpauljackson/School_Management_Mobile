@@ -17,7 +17,9 @@ import Loader from '../components/Loader';
 
 export default function AllAssignments({navigation, route}) {
   const teacherId = useSelector(state => state.Auth.user);
-  const classId = route.params.classId;
+  const userData = useSelector(state => state.Auth.userData);
+  const {type} = userData
+  const classId = route?.params?.classId || userData.classId;
   const [assignments, setAssignments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -25,11 +27,17 @@ export default function AllAssignments({navigation, route}) {
   const toggle = () => setVisible(!visible);
   const fetchAssignments = async () => {
     setIsLoading(true);
-    try {
-      const res = await axios.post(getAssignmentsEndpoint, {
+    let payload = (type === 'teacher')?{
         classId,
         teacherId,
-      });
+        type
+      }:{
+        classId,
+        type
+      }
+    try {
+      const res = await axios.post(getAssignmentsEndpoint,payload);
+      console.log("res ass",res.data);
       setAssignments(res.data);
     } catch (error) {
       console.error('Error fetching assignments:', error);
@@ -58,11 +66,14 @@ export default function AllAssignments({navigation, route}) {
           toggle={toggle}
           classId={classId}
         />
-        <TouchableNativeFeedback onPress={() => toggle()}>
+        {type === 'teacher' &&
+        <><TouchableNativeFeedback onPress={() => toggle()}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Add Assignment</Text>
           </View>
         </TouchableNativeFeedback>
+        </>
+        }
       </View>
     );
   return (
@@ -91,16 +102,21 @@ export default function AllAssignments({navigation, route}) {
           </View>
         )}
       />
+      {
+        type === 'teacher' &&
+      <>
       <UploadAssignmentModal
         visible={visible}
         toggle={toggle}
         classId={classId}
-      />
+        />
       <TouchableNativeFeedback onPress={() => toggle()}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Add Assignment</Text>
         </View>
       </TouchableNativeFeedback>
+      </>
+}
     </View>
   );
 }

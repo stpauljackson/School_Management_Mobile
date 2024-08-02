@@ -1,9 +1,33 @@
 import React, {useEffect, useState} from 'react';
+import {View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat,Send,InputToolbar  } from 'react-native-gifted-chat';
 import ConnectyCube from 'react-native-connectycube';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import ChatHeader from './ChatHeader';
+const renderSend = (props) => {
+    return (
+      <Send {...props}>
+        <View style={{ marginBottom:10 , marginRight: 10 }}>
+          <Ionicons name="send" size={24} color="#0084ff" />
+        </View>
+      </Send>
+    );
+  }
+  const renderInputToolbar = (props) => {
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={{
+          borderTopWidth: 1,
+          borderTopColor: '#e6e6e6',
+          padding: 5,
+        }}
+      />
+    );
+  };
 
-const ChatScreen = ({route}) => {
+const ChatScreen = ({route,navigation}) => {
   const {recipient} = route?.params;
   const user = useSelector(state => state?.Auth?.user);
   const [messages, setMessages] = useState([]);
@@ -100,13 +124,17 @@ const ChatScreen = ({route}) => {
   };
 
   return (
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <ChatHeader name={`${recipient.firstName} ${recipient.lastName}`} navigation={navigation}  />
     <GiftedChat
       messages={messages}
       onSend={onSend}
+      renderSend={renderSend}
       user={{
         _id: user,
       }}
     />
+    </View>
   );
 };
 

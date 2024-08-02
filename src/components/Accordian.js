@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Accordion = ({ data, navigation }) => {
+const Accordion = ({ data, navigation,route }) => {
   const [expanded, setExpanded] = useState([]);
 
   const toggleAccordion = (classIndex) => {
@@ -12,7 +12,8 @@ const Accordion = ({ data, navigation }) => {
   };
 
   const handleSectionPress = (classItem, sectionItem) => {
-    navigation.navigate('Add Classes', { class: classItem.class, section: sectionItem.section, id: sectionItem.id });
+    let navigateTo = (route?.params?.type === 'student') ? 'Add Classes': 'Examinations'
+    navigation.navigate(navigateTo, { class: classItem.class, section: sectionItem.section, id: sectionItem.id });
   };
 
   const renderItem = ({ item, index }) => (

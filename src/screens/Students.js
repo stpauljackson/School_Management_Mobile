@@ -10,6 +10,7 @@ import axios from 'axios';
 import {getUsersByClassOrSchoolEndpoint} from '../api/api';
 import AddStudentModal from '../components/AddStudentModal';
 import UserListCard from '../components/UserListCard';
+import Loader from '../components/Loader';
 
 export default function Students({navigation,route}) {
   const [students, setStudents] = useState([]);
